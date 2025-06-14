@@ -1,17 +1,17 @@
 # Import the QueryBase class
-import query_base as qb
+from employee_events.query_base import QueryBase
 
 # Import dependencies for sql execution
-from sql_execution import QueryMixin
+# from employee_events.sql_execution import QueryMixin 
+# QueryMixin is not used since QueryMixin is inherited through QueryBase
 
 # Create a subclass of QueryBase
 # called  `Team`
-class Team(qb.QueryBase):
+class Team(QueryBase):
 
     # Set the class attribute `name`
     # to the string "team"
     name = "team"
-
 
     # Define a `names` method
     # that receives no arguments
@@ -19,7 +19,6 @@ class Team(qb.QueryBase):
     # a list of tuples from an sql execution
     def names(self):
 
-        
         # Query 5
         # Write an SQL query that selects
         # the team_name and team_id columns
@@ -29,7 +28,7 @@ class Team(qb.QueryBase):
         
         # Execute the query using the inherited query method and return the result as a list of tuples
         return self.query(sql_query)
-    
+
 
     # Define a `username` method
     # that receives an ID argument
@@ -55,7 +54,6 @@ class Team(qb.QueryBase):
     # so when it is called, a pandas dataframe
     # is returns containing the execution of
     # the sql query
-    #### YOUR CODE HERE
     def model_data(self, id):
 
         return self.pandas_query(f"""
