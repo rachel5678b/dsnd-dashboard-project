@@ -1,5 +1,5 @@
 # Import any dependencies needed to execute sql queries
-from sql_execution import QueryMixin
+from employee_events.sql_execution import QueryMixin
 
 # Define a class called QueryBase
 # Use inheritance to add methods
@@ -38,7 +38,7 @@ class QueryBase(QueryMixin):
             FROM {self.name}
             JOIN employee_events
                 USING ({self.name}_id)
-            WHERE {self.name}.{self.name}_id = employee_events.{self.name}_id 
+            WHERE {self.name}.{self.name}_id = {id} 
             GROUP BY event_date
             ORDER BY event_date;
         """
@@ -63,7 +63,7 @@ class QueryBase(QueryMixin):
             FROM notes
             JOIN {self.name} 
                 USING ({self.name}_id) 
-            WHERE notes.{self.name}_id = {self.name}.{self.name}_id;
+            WHERE notes.{self.name}_id = {id};
         """
         notes_df = self.pandas_query(sql_query)
     
