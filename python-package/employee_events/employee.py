@@ -1,13 +1,14 @@
 # Import the QueryBase class
-import query_base as qb
+from employee_events.query_base import QueryBase 
 
 # Import dependencies needed for sql execution
 # from the `sql_execution` module
-from sql_execution import QueryMixin
+# from employee_events.sql_execution import QueryMixin 
+# QueryMixin is not used since QueryMixin is inherited through QueryBase
 
 # Define a subclass of QueryBase
 # called Employee
-class Employee(qb.QueryBase):
+class Employee(QueryBase):
 
     # Set the class attribute `name`
     # to the string "employee"
@@ -28,15 +29,15 @@ class Employee(qb.QueryBase):
         # This query should return the data
         # for all employees in the database
         sql_query = "SELECT first_name || ' ' || last_name AS full_name, employee_id FROM employee;"
-    
+          
         return self.query(sql_query)
-    
+   
     # Define a method called `username`
     # that receives an `id` argument
     # This method should return a list of tuples
     # from an sql execution
     def username(self, ID):
-        
+       
         # Query 4
         # Write an SQL query
         # that selects an employees full name
@@ -59,7 +60,6 @@ class Employee(qb.QueryBase):
     # so when it is called, a pandas dataframe
     # is returns containing the execution of
     # the sql query
-    #### YOUR CODE HERE
     def model_data(self, id):
 
         return self.pandas_query(f"""
@@ -70,3 +70,4 @@ class Employee(qb.QueryBase):
                         USING({self.name}_id)
                     WHERE {self.name}.{self.name}_id = {id}
                 """)
+    
