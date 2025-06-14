@@ -7,4 +7,5 @@ pandas==2.2.3
 pytest
 flake8
 ipython
-employee_events
+python-package/
+
