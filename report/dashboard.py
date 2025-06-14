@@ -1,11 +1,13 @@
 from fasthtml.common import *
 import matplotlib.pyplot as plt
+from matplotlib import cm
 
 # Import QueryBase, Employee, Team from employee_events
 from employee_events import QueryBase, Employee, Team
 
+
 # import the load_model function from the utils.py file
-from utils import load_model
+from utils import load_model 
 
 """
 Below, we import the parent classes
@@ -47,6 +49,7 @@ class ReportDropdown(Dropdown):
         # call the employee_events method
         # that returns the user-type's
         # names and ids
+
         return model.names()
 
 
@@ -62,7 +65,12 @@ class Header(BaseComponent):
         # Using the model argument for this method
         # return a fasthtml H1 objects
         # containing the model's name attribute
-        return H1(model.name)
+        if model.name == 'team':
+            return H1('Team Performance')
+        elif model.name == 'employee':
+            return H1('Employee Performance')
+        else:
+            return H1(model.name)
           
 
 # Create a subclass of base_components/MatplotlibViz
@@ -99,7 +107,7 @@ class LineChart(MatplotlibViz):
         # Initialize a pandas subplot
         # and assign the figure and axis
         # to variables
-        fig, axes = plt.subplot()
+        fig, axes = plt.subplots()
         
         # call the .plot method for the
         # cumulative counts dataframe
@@ -112,14 +120,15 @@ class LineChart(MatplotlibViz):
         # the border color and font color to black. 
         # Reference the base_components/matplotlib_viz file 
         # to inspect the supported keyword arguments
-        self.set_axis_styling(axes, bordercolor='black', fontcolor='black')
+        self.set_axis_styling(axes, bordercolor='green', fontcolor='white')
         
         # Set title and labels for x and y axis
         axes.set_title("Cumulative Sum of Event Counts")
         axes.set_xlabel("Event Date")
         axes.set_ylabel("Event Count")
 
-          
+
+
 # Create a subclass of base_components/MatplotlibViz
 # called `BarChart`
 class BarChart(MatplotlibViz):
@@ -147,7 +156,6 @@ class BarChart(MatplotlibViz):
         # The shape should be (<number of records>, 1)
         proba = proba[:, 1]
         
-        
         # Below, create a `pred` variable set to
         # the number we want to visualize
         #
@@ -155,7 +163,7 @@ class BarChart(MatplotlibViz):
         # We want to visualize the mean of the predict_proba output
         if model.name == "team":
             pred = proba.mean()
-          
+
         # Otherwise set `pred` to the first value
         # of the predict_proba output
         else:
@@ -164,15 +172,25 @@ class BarChart(MatplotlibViz):
         # Initialize a matplotlib subplot
         fig, axes = plt.subplots()
         
+        # Initialize a colormap 
+        cmap = cm.get_cmap('hsv') 
+
+        # Get color based on prediction 
+        bar_color = cmap(pred)
+        
         # Run the following code unchanged
-        ax.barh([''], [pred])
-        ax.set_xlim(0, 1)
-        ax.set_title('Predicted Recruitment Risk', fontsize=20)
+        axes.barh([''], [pred], color=bar_color)
+        axes.set_xlim(0, 1)
+        axes.set_title('Predicted Recruitment Risk', fontsize=20)
+
+        #label x axis
+        axes.set_xlabel("Recruitment Risk")
         
         # pass the axis variable
         # to the `.set_axis_styling`
         # method
-        self.set_axis_styling(axes, border_color="green", font_color="black")
+        self.set_axis_styling(axes, bordercolor="yellow", fontcolor="white")
+
  
 # Create a subclass of combined_components/CombinedComponent
 # called Visualizations       
@@ -222,7 +240,7 @@ class DashboardFilters(FormGroup):
 # Create a subclass of CombinedComponents
 # called `Report`
 class Report(CombinedComponent):
-
+    
     # Set the `children`
     # class attribute to a list
     # containing initialized instances 
@@ -240,14 +258,16 @@ report = Report()
 
 # Create a route for a get request
 # Set the route's path to the root
-@route('/')
+@app.route('/')
 def get():
 
     # Call the initialized report
     # pass the integer 1 and an instance
     # of the Employee class as arguments
     # Return the result
-    return Report(1,Employee())
+
+    return report(1,Employee())
+    
 
 # Create a route for a get request
 # Set the route's path to receive a request
@@ -257,13 +277,13 @@ def get():
 # parameterize the employee ID 
 # to a string datatype
 @app.route('/employee/{ID}')
-def get(ID:str):
+def get_employee(ID:str):
 
     # Call the initialized report
     # pass the ID and an instance
     # of the Employee SQL class as arguments
     # Return the result
-    return (ID, Employee())
+    return report(ID, Employee())
 
 # Create a route for a get request
 # Set the route's path to receive a request
@@ -273,13 +293,14 @@ def get(ID:str):
 # parameterize the team ID 
 # to a string datatype
 @app.route('/team/{ID}')
-def get(ID:str):
+def get_team(ID:str):
 
     # Call the initialized report
     # pass the id and an instance
-    # of the Team SQL class as arguments
+    # of the Team SQL class as argument
+    
     # Return the result
-    return (ID, Team())
+    return report(ID, Team())
 
 
 # Keep the below code unchanged!
@@ -306,4 +327,4 @@ async def update_data(r):
     
 
 
-serve()
+serve(host="127.0.0.1", port=5050)
