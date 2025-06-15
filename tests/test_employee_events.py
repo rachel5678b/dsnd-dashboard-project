@@ -81,4 +81,3 @@ def test_employee_events_table_exists(table_names: list):
     # is in the table_names list
     assert 'employee_events' in table_names, (
         "'employee_events' is not on the list of tables.")
-    
