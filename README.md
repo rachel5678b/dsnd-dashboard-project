@@ -28,15 +28,16 @@ The motivation for this project was to build a dashboard that allows managers to
         * git clone https://github.com/rachel5678b/dsnd-dashboard-project.git
 
 #### * Create and Activate a Python Virtual Environment (Recommended)   
-        * create: **python -m venv p2_venv**
-        * activate: **source p2_venv/bin/activate** or on Windows **p2_venv\Scripts\activate**
+        * Create: python -m venv p2_venv
+        * Activate: source p2_venv/bin/activate 
+          Activate on Windows: p2_venv\Scripts\activate
   
 #### * Install Dependencies
         * A full list of package dependencies can be found in the included requirements.txt file, to install these dependencies, use the command below.
-            * **pip install -r requirements.txt**
+            * pip install -r requirements.txt
 
 ## Usage <a name="usage"></a>
-    * To run the dashboard, use the command: **python report/dashboard.py**
+    * To run the dashboard, use the command: python report/dashboard.py
       * Under the employee dashboard, select the the employee name form the dropdown to view data about that employee.
       * Under the team dashboard, select the team name form the dropdown to view data about that team.
     
