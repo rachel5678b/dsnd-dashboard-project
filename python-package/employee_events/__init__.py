@@ -1,3 +1,4 @@
+# flake8: noqa
 from .employee import Employee
 from .team import Team
 from .query_base import QueryBase

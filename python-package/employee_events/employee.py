@@ -1,5 +1,5 @@
 # Import the QueryBase class
-from employee_events.query_base import QueryBase
+from employee_events import QueryBase
 
 # Import dependencies needed for sql execution
 # from the `sql_execution` module
@@ -23,7 +23,8 @@ class Employee(QueryBase):
         username(ID: int)
             Returns a list of tuples of employee full name name
         model_data(id: int)
-             Return the sums of all postive and negative events for an employee_id
+            Return the sums of all postive and negative events
+            for an employee_id
     """
 
     # Set the class attribute `name`
@@ -40,7 +41,8 @@ class Employee(QueryBase):
         Return a list of tuples of employee full name and ID
 
         Returns:
-            A list of tuples that includes columns full_name and employee_id
+            A list of tuples that includes columns full_name
+             and employee_id
         """
 
         # Query 3
@@ -50,7 +52,10 @@ class Employee(QueryBase):
         # 2. The employee's id
         # This query should return the data
         # for all employees in the database
-        sql_query = "SELECT first_name || ' ' || last_name AS full_name, employee_id FROM employee;"
+        sql_query = """SELECT first_name || ' ' || last_name
+                       AS full_name, employee_id
+                       FROM employee;
+                    """
 
         return self.query(sql_query)
 
@@ -92,13 +97,15 @@ class Employee(QueryBase):
 
     def model_data(self, id):
         """
-        Return the sums of all postive and negative events for an employee_id
+        Return the sums of all postive and negative events
+         for an employee_id
 
         Args:
             id (int): The employee_id to retrieve events for
 
         Returns:
-            A pandas DataFrame with columns of positive_events, negative_events
+            A pandas DataFrame with columns of positive_events,
+             negative_events
         """
         return self.pandas_query(f"""
                     SELECT SUM(positive_events) positive_events

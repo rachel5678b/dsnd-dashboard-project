@@ -1,5 +1,5 @@
 # Import any dependencies needed to execute sql queries
-from employee_events.sql_execution import QueryMixin
+from employee_events import QueryMixin
 
 # Define a class called QueryBase
 # Use inheritance to add methods
@@ -46,7 +46,8 @@ class QueryBase(QueryMixin):
         Create a DataFrame of daily event counts for an ID.
 
         Args:
-            id (int): The ID of the entity (employee or team) for which to count events.
+            id (int): The ID of the entity (employee or team)
+            for which to count events.
 
         Returns:
             events_df (DataFrame): A DataFrame with columns for event_date,
@@ -84,11 +85,12 @@ class QueryBase(QueryMixin):
         Create a DataFrame of notes for an ID.
 
         Args:
-            id (int): The ID of the entity (employee or team) to retrive notes for.
+            id (int): The ID of the entity (employee or team)
+            to retrive notes for.
 
         Returns:
-            notes_df (DataFrame): A DataFrame with columns for note_date,
-                            and note.
+            notes_df (DataFrame): A DataFrame with columns for note_date
+            and note.
         """
         # QUERY 2
         # Write an SQL query that returns `note_date`, and `note`

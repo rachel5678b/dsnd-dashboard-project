@@ -1,5 +1,5 @@
 # Import the QueryBase class
-from employee_events.query_base import QueryBase
+from employee_events import QueryBase
 
 # Import dependencies for sql execution
 # from employee_events.sql_execution import QueryMixin
